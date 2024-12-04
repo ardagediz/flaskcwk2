@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Our Products</h2>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">Price: ${{ product.price }}</p>
+                <p class="card-text">Stock Level: {{ product.stock_level }}</p>
+                <p class="card-text">Likes: <span class="like-count">{{ product.likes }}</span></p>
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('add_to_basket', product_id=product.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-primary mb-2">Add to Basket</button>
+                </form>
+                <form action="{{ url_for('add_to_favourites', product_id=product.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-secondary mb-2">Add to Favourites</button>
+                </form>
+                <button class="btn btn-success mb-2 like-product" data-id="{{ product.id }}">Like</button>
+                {% else %}
+                <p class="text-muted">Please log in to add products to your basket or favourites.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>No products available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

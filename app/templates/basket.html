@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Basket</h2>
+<ul class="list-group">
+    {% for product in basket_items %}
+    <li class="list-group-item">
+        <h5>{{ product.name }}</h5>
+        <p>Price: ${{ product.price }}</p>
+        <form action="{{ url_for('remove_from_basket', product_id=product.id) }}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger">Remove from Basket</button>
+        </form>
+    </li>
+    {% else %}
+    <p class="text-muted">Your basket is empty.</p>
+    {% endfor %}
+</ul>
+{% endblock %}
